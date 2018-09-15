@@ -9,8 +9,7 @@
 import UIKit
 
 class ViewController: UIViewController {
-
-    
+    // MARK: IBOutets
     @IBOutlet weak var memImage: UIImageView!
     @IBOutlet weak var launchCamera: UIBarButtonItem!
     @IBOutlet weak var topText: UITextField!
@@ -24,14 +23,12 @@ class ViewController: UIViewController {
     
     // MARK: Variables & Struct
     var textInputDelegate = TextInputDelegate()
-    
     let memeTextAttributes:[String: Any] = [
         NSAttributedStringKey.font.rawValue: UIFont(name: "HelveticaNeue-CondensedBlack", size: 40)!,
         NSAttributedStringKey.strokeColor.rawValue: UIColor.black,
         NSAttributedStringKey.foregroundColor.rawValue: UIColor.white,
         NSAttributedStringKey.strokeWidth.rawValue: -4,
         ]
-    
     struct Meme{
         var topText = "Top"
         var bottomText = "Bottom"
@@ -76,6 +73,7 @@ class ViewController: UIViewController {
         self.present(activityController, animated: true, completion: nil)
     }
     
+    @IBOutlet var controlImagePressed: [UIImageView]!
     // MARK: Overrides
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -87,6 +85,9 @@ class ViewController: UIViewController {
         bottomText.defaultTextAttributes = memeTextAttributes
         bottomText.textAlignment = .center
         bottomText.delegate = textInputDelegate
+    }
+    @IBAction func clearControlImage(_ sender: Any) {
+        controlImage.image = UIImage()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -114,7 +115,10 @@ class ViewController: UIViewController {
     
     @objc func keyboardWillAppear(_ notification: Notification){
         print("keyboard appear")
-        view.frame.origin.y -= getKeyboardHeight(notification)
+        print(topText.isEditing)
+        if bottomText.isEditing{
+            view.frame.origin.y -= getKeyboardHeight(notification)
+        }
     }
     
     @objc func keyboardWillDisappear(_ notification: Notification){
@@ -131,8 +135,13 @@ class ViewController: UIViewController {
     
     func getMemImage() -> UIImage{
         //hide unwanted components on screen
-        //toolbarBottom.isHidden = true
-        //topNavBar.isHidden = true
+        toolbarBottom.isHidden = true
+        topNavBar.isHidden = true
+        print("y")
+        print(topText.frame.origin.y)
+        print(bottomText.frame.origin.y)
+        topText.frame.origin.y = topText.frame.origin.y - topNavBar.frame.height
+        bottomText.frame.origin.y = bottomText.frame.origin.y + toolbarBottom.frame.height
         
         // Render view to an image
         UIGraphicsBeginImageContext(self.memImage.frame.size)
@@ -140,12 +149,13 @@ class ViewController: UIViewController {
         print(self.memImage.frame.size)
         print(self.memImage.frame.origin.y)
         
-        
         self.snapshotView.drawHierarchy(in: CGRect(x: self.snapshotView.frame.origin.x, y: 0, width: self.snapshotView.frame.width, height: self.snapshotView.frame.height), afterScreenUpdates: true)
         
         let memedImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
         
+        topText.frame.origin.y = topText.frame.origin.y + topNavBar.frame.height
+        bottomText.frame.origin.y = bottomText.frame.origin.y - toolbarBottom.frame.height
         toolbarBottom.isHidden = false
         topNavBar.isHidden = false
         
@@ -160,7 +170,6 @@ class ViewController: UIViewController {
 
 // MARK: Extension
 extension ViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate{
-    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
             self.memImage.image = image
