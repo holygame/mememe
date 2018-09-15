@@ -33,37 +33,53 @@
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                         <items>
                                             <navigationItem title="Meme Me" id="DFv-4w-ciB">
-                                                <barButtonItem key="leftBarButtonItem" title="Item" id="A06-yt-9aj" userLabel="Share"/>
-                                                <barButtonItem key="rightBarButtonItem" title="Item" id="JVg-Ad-RIL" userLabel="Cancel"/>
+                                                <barButtonItem key="leftBarButtonItem" title="Item" id="A06-yt-9aj" userLabel="Share">
+                                                    <connections>
+                                                        <action selector="sharePressed:" destination="BYZ-38-t0r" id="pT7-cd-wBe"/>
+                                                    </connections>
+                                                </barButtonItem>
+                                                <barButtonItem key="rightBarButtonItem" title="Item" id="JVg-Ad-RIL" userLabel="Cancel">
+                                                    <connections>
+                                                        <action selector="pressedCancel:" destination="BYZ-38-t0r" id="XZA-Zc-UMC"/>
+                                                    </connections>
+                                                </barButtonItem>
                                             </navigationItem>
                                         </items>
                                     </navigationBar>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rpq-aF-buC" userLabel="Bottom Text">
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="BOTTOM" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rpq-aF-buC" userLabel="Bottom Text">
                                         <rect key="frame" x="20" y="533" width="335" height="60"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="60" id="AeE-x7-78o"/>
                                         </constraints>
-                                        <nil key="textColor"/>
+                                        <color key="textColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="allCharacters"/>
                                     </textField>
                                     <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="inz-YA-Qfu">
                                         <rect key="frame" x="0.0" y="603" width="375" height="44"/>
                                         <items>
                                             <barButtonItem style="plain" systemItem="flexibleSpace" id="6vd-xk-tet"/>
-                                            <barButtonItem systemItem="camera" id="mE7-AI-4hA"/>
-                                            <barButtonItem title="ALBUM" id="K9M-tM-htP"/>
+                                            <barButtonItem systemItem="camera" id="mE7-AI-4hA">
+                                                <connections>
+                                                    <action selector="launchCamera:" destination="BYZ-38-t0r" id="uV8-uE-fiY"/>
+                                                </connections>
+                                            </barButtonItem>
+                                            <barButtonItem title="ALBUM" id="K9M-tM-htP">
+                                                <connections>
+                                                    <action selector="launchLibrary:" destination="BYZ-38-t0r" id="9x5-xI-dkl"/>
+                                                </connections>
+                                            </barButtonItem>
                                             <barButtonItem style="plain" systemItem="flexibleSpace" id="AiX-gg-Mtx"/>
                                         </items>
                                     </toolbar>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="L6V-gh-w7a" userLabel="Top Text">
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="TOP" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="L6V-gh-w7a" userLabel="Top Text">
                                         <rect key="frame" x="20" y="54" width="335" height="60"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="60" id="idl-d7-V8j"/>
                                         </constraints>
-                                        <nil key="textColor"/>
+                                        <color key="textColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="allCharacters"/>
                                     </textField>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -96,6 +112,17 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <connections>
+                        <outlet property="bottomText" destination="rpq-aF-buC" id="uRp-9F-Vk8"/>
+                        <outlet property="controlImage" destination="Z76-yT-dOk" id="4so-Et-cVZ"/>
+                        <outlet property="launchCamera" destination="mE7-AI-4hA" id="FHH-31-8Am"/>
+                        <outlet property="memImage" destination="kkV-Hq-R6B" id="J9Z-kq-RKy"/>
+                        <outlet property="shareButton" destination="A06-yt-9aj" id="tkU-4U-VEl"/>
+                        <outlet property="snapshotView" destination="2un-Av-fXr" id="j6b-HZ-Eo0"/>
+                        <outlet property="toolbarBottom" destination="inz-YA-Qfu" id="Pr8-Sv-slH"/>
+                        <outlet property="topNavBar" destination="UVO-Mb-q3c" id="yXW-3c-IVp"/>
+                        <outlet property="topText" destination="L6V-gh-w7a" id="bMu-zN-Vsc"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>

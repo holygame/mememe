@@ -14,6 +14,7 @@
 		A994A763214D85010095590F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A994A761214D85010095590F /* LaunchScreen.storyboard */; };
 		A994A76E214D85010095590F /* mememeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A994A76D214D85010095590F /* mememeTests.swift */; };
 		A994A779214D85010095590F /* mememeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A994A778214D85010095590F /* mememeUITests.swift */; };
+		A994A787214DAB520095590F /* TextInputDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A994A786214DAB520095590F /* TextInputDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +48,7 @@
 		A994A774214D85010095590F /* mememeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = mememeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A994A778214D85010095590F /* mememeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mememeUITests.swift; sourceTree = "<group>"; };
 		A994A77A214D85010095590F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A994A786214DAB520095590F /* TextInputDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextInputDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +101,7 @@
 			children = (
 				A994A758214D85010095590F /* AppDelegate.swift */,
 				A994A75A214D85010095590F /* ViewController.swift */,
+				A994A786214DAB520095590F /* TextInputDelegate.swift */,
 				A994A75C214D85010095590F /* Main.storyboard */,
 				A994A75F214D85010095590F /* Assets.xcassets */,
 				A994A761214D85010095590F /* LaunchScreen.storyboard */,
@@ -257,6 +260,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A994A75B214D85010095590F /* ViewController.swift in Sources */,
+				A994A787214DAB520095590F /* TextInputDelegate.swift in Sources */,
 				A994A759214D85010095590F /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
