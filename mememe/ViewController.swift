@@ -18,6 +18,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var toolbarBottom: UIToolbar!
     @IBOutlet weak var topNavBar: UINavigationBar!
     @IBOutlet weak var snapshotView: UIView!
+    @IBOutlet weak var topTextConstraint: NSLayoutConstraint!
+    @IBOutlet weak var bottomTextConstraint: NSLayoutConstraint!
     
     // MARK: Variables & Struct
     var textInputDelegate = TextInputDelegate()
@@ -86,6 +88,7 @@ class ViewController: UIViewController {
         bottomText.defaultTextAttributes = memeTextAttributes
         bottomText.textAlignment = .center
         bottomText.delegate = textInputDelegate
+        setupText(isLandscape: isLandscape())
         
     }
     
@@ -100,27 +103,33 @@ class ViewController: UIViewController {
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         if UIDevice.current.orientation.isLandscape {
-            print("Landscape")
-           print(topText.frame.origin.x)
-            setupText(isLandscape: true)
+            self.setupText(isLandscape: true)
         } else {
-            print("Portrait")
-            print(topText.frame.origin.x)
-            setupText(isLandscape: false)
+            self.setupText(isLandscape: false)
         }
     }
     
     // MARK: Functions
-    func setupText(isLandscape: Bool){
-        if isLandscape == true{
-            print("Landscape true")
-            topText.frame.origin.x = -20
-        }else{
-            topText.frame.origin.x = -20
-            print("Portrait true")
+    
+    func isLandscape() -> Bool{
+        let size = UIScreen.main.bounds.size
+        if size.width < size.height {
+            return false
+        } else {
+            return true
         }
     }
     
+    func setupText(isLandscape: Bool){
+        if isLandscape == true{
+            self.topTextConstraint.constant = -10
+            self.bottomTextConstraint.constant = -10
+        }else{
+            self.topTextConstraint.constant = 10
+            self.bottomTextConstraint.constant = 10
+        }
+    }
+
     func subscriptToKeybordNotification(){
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillAppear(_:)), name: .UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillDisappear(_:)), name: .UIKeyboardWillHide, object: nil)
@@ -146,13 +155,12 @@ class ViewController: UIViewController {
     
     func getKeyboardHeight(_ notification: Notification) -> CGFloat{
         let userInfo = notification.userInfo
-        let keyboardSize = userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue // of CGRect
+        let keyboardSize = userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue
         return keyboardSize.cgRectValue.height
     }
     
     func getMemImage() -> UIImage{
-        //hide unwanted components on screen
-        toolbarBottom.isHidden = true
+        toolbarBottom.isHidden = true //hide unwanted components on screen
         topNavBar.isHidden = true
 
         // Render view to an image

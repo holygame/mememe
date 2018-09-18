@@ -110,6 +110,7 @@
                     </view>
                     <connections>
                         <outlet property="bottomText" destination="rpq-aF-buC" id="uRp-9F-Vk8"/>
+                        <outlet property="bottomTextConstraint" destination="QEV-bH-ySv" id="BAM-1U-ipx"/>
                         <outlet property="launchCamera" destination="mE7-AI-4hA" id="FHH-31-8Am"/>
                         <outlet property="memImage" destination="kkV-Hq-R6B" id="J9Z-kq-RKy"/>
                         <outlet property="shareButton" destination="A06-yt-9aj" id="tkU-4U-VEl"/>
@@ -117,6 +118,7 @@
                         <outlet property="toolbarBottom" destination="inz-YA-Qfu" id="Pr8-Sv-slH"/>
                         <outlet property="topNavBar" destination="UVO-Mb-q3c" id="yXW-3c-IVp"/>
                         <outlet property="topText" destination="L6V-gh-w7a" id="bMu-zN-Vsc"/>
+                        <outlet property="topTextConstraint" destination="fcc-jW-t4j" id="k53-og-AF2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
