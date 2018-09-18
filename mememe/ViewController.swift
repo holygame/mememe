@@ -97,7 +97,30 @@ class ViewController: UIViewController {
         NotificationCenter.default.removeObserver(self, name: .UIKeyboardWillShow, object: nil)
     }
     
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        if UIDevice.current.orientation.isLandscape {
+            print("Landscape")
+           print(topText.frame.origin.x)
+            setupText(isLandscape: true)
+        } else {
+            print("Portrait")
+            print(topText.frame.origin.x)
+            setupText(isLandscape: false)
+        }
+    }
+    
     // MARK: Functions
+    func setupText(isLandscape: Bool){
+        if isLandscape == true{
+            print("Landscape true")
+            topText.frame.origin.x = -20
+        }else{
+            topText.frame.origin.x = -20
+            print("Portrait true")
+        }
+    }
+    
     func subscriptToKeybordNotification(){
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillAppear(_:)), name: .UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillDisappear(_:)), name: .UIKeyboardWillHide, object: nil)
