@@ -15,20 +15,22 @@ class ViewController: UIViewController {
     @IBOutlet weak var topText: UITextField!
     @IBOutlet weak var bottomText: UITextField!
     @IBOutlet weak var shareButton: UIBarButtonItem!
-    @IBOutlet weak var cancelButton: UIBarButtonItem!
     @IBOutlet weak var toolbarBottom: UIToolbar!
-    @IBOutlet weak var controlImage: UIImageView!
     @IBOutlet weak var topNavBar: UINavigationBar!
     @IBOutlet weak var snapshotView: UIView!
     
     // MARK: Variables & Struct
     var textInputDelegate = TextInputDelegate()
+    var memImageMovedUp = false
+    let defaultTopText = "TOP"
+    let defaultBottomText = "BOTTOM"
     let memeTextAttributes:[String: Any] = [
         NSAttributedStringKey.font.rawValue: UIFont(name: "HelveticaNeue-CondensedBlack", size: 40)!,
         NSAttributedStringKey.strokeColor.rawValue: UIColor.black,
         NSAttributedStringKey.foregroundColor.rawValue: UIColor.white,
         NSAttributedStringKey.strokeWidth.rawValue: -4,
         ]
+    
     struct Meme{
         var topText = "Top"
         var bottomText = "Bottom"
@@ -52,9 +54,10 @@ class ViewController: UIViewController {
     }
     
     @IBAction func pressedCancel(_ sender: Any) {
-        let memImage = getMemImage()
-        controlImage.image = memImage
-        print(memImage)
+        resetMeme()
+        //let memImage = getMemImage()
+        //controlImage.image = memImage
+        //print(memImage)
     }
     
     @IBAction func sharePressed(_ sender: Any) {
@@ -62,18 +65,16 @@ class ViewController: UIViewController {
         let activityController = UIActivityViewController(activityItems: [memImage], applicationActivities: nil)
         activityController.completionWithItemsHandler = {(activityType: UIActivityType?, completed: Bool, returnedItems: [Any]?, error: Error?) in
             if !completed {
-                // User canceled
-                print("activity cancelled")
+                // User canceled; do nothing
                 return
             }
-            // User completed activity
+            // User completed activity, save meme
             self.saveMeme(newMemeImage: memImage)
-            print("activity complete")
         }
         self.present(activityController, animated: true, completion: nil)
     }
     
-    @IBOutlet var controlImagePressed: [UIImageView]!
+    
     // MARK: Overrides
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -85,49 +86,42 @@ class ViewController: UIViewController {
         bottomText.defaultTextAttributes = memeTextAttributes
         bottomText.textAlignment = .center
         bottomText.delegate = textInputDelegate
-    }
-    @IBAction func clearControlImage(_ sender: Any) {
-        controlImage.image = UIImage()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         subscriptToKeybordNotification()
-        print("will appear")
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         NotificationCenter.default.removeObserver(self, name: .UIKeyboardWillShow, object: nil)
-        print("will disappear")
     }
     
     // MARK: Functions
     func subscriptToKeybordNotification(){
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillAppear(_:)), name: .UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillDisappear(_:)), name: .UIKeyboardWillHide, object: nil)
-        print("subscribe")
     }
     
     func unsubscripbeKeybordNotification(){
         NotificationCenter.default.removeObserver(self, name: .UIKeyboardWillShow, object: nil)
         NotificationCenter.default.removeObserver(self, name: .UIKeyboardWillHide, object: nil)
-        print("unsubscribe")
     }
     
     @objc func keyboardWillAppear(_ notification: Notification){
-        print("keyboard appear")
-        print(topText.isEditing)
-        if bottomText.isEditing{
+        // move view only up when it's bottom text and not already up (used to happen in simulator on first keyboard use)
+        if bottomText.isEditing && memImageMovedUp == false{
             view.frame.origin.y -= getKeyboardHeight(notification)
+            memImageMovedUp = true
         }
     }
     
     @objc func keyboardWillDisappear(_ notification: Notification){
-        print("keyboard will disappear")
         view.frame.origin.y = 0
+        memImageMovedUp = false
     }
     
     func getKeyboardHeight(_ notification: Notification) -> CGFloat{
-        print("get keyboardsize")
         let userInfo = notification.userInfo
         let keyboardSize = userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue // of CGRect
         return keyboardSize.cgRectValue.height
@@ -137,25 +131,14 @@ class ViewController: UIViewController {
         //hide unwanted components on screen
         toolbarBottom.isHidden = true
         topNavBar.isHidden = true
-        print("y")
-        print(topText.frame.origin.y)
-        print(bottomText.frame.origin.y)
-        topText.frame.origin.y = topText.frame.origin.y - topNavBar.frame.height
-        bottomText.frame.origin.y = bottomText.frame.origin.y + toolbarBottom.frame.height
-        
+
         // Render view to an image
         UIGraphicsBeginImageContext(self.memImage.frame.size)
-        print("franesizes")
-        print(self.memImage.frame.size)
-        print(self.memImage.frame.origin.y)
-        
         self.snapshotView.drawHierarchy(in: CGRect(x: self.snapshotView.frame.origin.x, y: 0, width: self.snapshotView.frame.width, height: self.snapshotView.frame.height), afterScreenUpdates: true)
         
         let memedImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
         
-        topText.frame.origin.y = topText.frame.origin.y + topNavBar.frame.height
-        bottomText.frame.origin.y = bottomText.frame.origin.y - toolbarBottom.frame.height
         toolbarBottom.isHidden = false
         topNavBar.isHidden = false
         
@@ -165,6 +148,12 @@ class ViewController: UIViewController {
     func saveMeme(newMemeImage: UIImage){
         let mem = Meme(topText: topText.text!, bottomText: bottomText.text!, originalImage: self.memImage.image!, memImage: newMemeImage)
         print(mem)
+    }
+    
+    func resetMeme(){
+        topText.text = defaultTopText
+        bottomText.text = defaultBottomText
+        memImage.image = UIImage()
     }
 }
 

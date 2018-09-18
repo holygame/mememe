@@ -21,7 +21,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2un-Av-fXr" userLabel="snapshotView">
                                 <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="kkV-Hq-R6B" userLabel="memeImage">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="kkV-Hq-R6B" userLabel="memeImage">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
                                         <color key="backgroundColor" red="0.1215686277" green="0.1294117719" blue="0.1411764771" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </imageView>
@@ -29,12 +29,12 @@
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                         <items>
                                             <navigationItem title="Meme Me" id="DFv-4w-ciB">
-                                                <barButtonItem key="leftBarButtonItem" title="Item" id="A06-yt-9aj" userLabel="Share">
+                                                <barButtonItem key="leftBarButtonItem" systemItem="action" id="A06-yt-9aj" userLabel="Share">
                                                     <connections>
                                                         <action selector="sharePressed:" destination="BYZ-38-t0r" id="pT7-cd-wBe"/>
                                                     </connections>
                                                 </barButtonItem>
-                                                <barButtonItem key="rightBarButtonItem" title="Item" id="JVg-Ad-RIL" userLabel="Cancel">
+                                                <barButtonItem key="rightBarButtonItem" title="Cancel" id="JVg-Ad-RIL" userLabel="Cancel">
                                                     <connections>
                                                         <action selector="pressedCancel:" destination="BYZ-38-t0r" id="XZA-Zc-UMC"/>
                                                     </connections>
@@ -43,7 +43,7 @@
                                         </items>
                                     </navigationBar>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="TOP" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="L6V-gh-w7a" userLabel="Top Text">
-                                        <rect key="frame" x="20" y="54" width="335" height="60"/>
+                                        <rect key="frame" x="20" y="64" width="335" height="60"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="60" id="idl-d7-V8j"/>
                                         </constraints>
@@ -52,7 +52,7 @@
                                         <textInputTraits key="textInputTraits" autocapitalizationType="allCharacters"/>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="BOTTOM" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rpq-aF-buC" userLabel="Bottom Text">
-                                        <rect key="frame" x="20" y="533" width="335" height="60"/>
+                                        <rect key="frame" x="20" y="523" width="335" height="60"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="60" id="AeE-x7-78o"/>
                                         </constraints>
@@ -77,19 +77,6 @@
                                             <barButtonItem style="plain" systemItem="flexibleSpace" id="AiX-gg-Mtx"/>
                                         </items>
                                     </toolbar>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Z76-yT-dOk" userLabel="Control Image">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    </imageView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sp9-SG-gUv">
-                                        <rect key="frame" x="327" y="563" width="34" height="30"/>
-                                        <state key="normal" title="clear">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="clearControlImage:" destination="BYZ-38-t0r" eventType="touchUpInside" id="dL6-Hy-eDj"/>
-                                        </connections>
-                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
@@ -97,20 +84,14 @@
                                     <constraint firstAttribute="trailing" secondItem="UVO-Mb-q3c" secondAttribute="trailing" id="6Y6-6G-3Bf"/>
                                     <constraint firstItem="UVO-Mb-q3c" firstAttribute="leading" secondItem="2un-Av-fXr" secondAttribute="leading" id="DhR-uM-Vlr"/>
                                     <constraint firstItem="UVO-Mb-q3c" firstAttribute="top" secondItem="2un-Av-fXr" secondAttribute="top" id="Fpt-S6-ITV"/>
-                                    <constraint firstAttribute="trailing" secondItem="Z76-yT-dOk" secondAttribute="trailing" id="JGC-Aa-0Mq"/>
-                                    <constraint firstItem="inz-YA-Qfu" firstAttribute="top" secondItem="rpq-aF-buC" secondAttribute="bottom" constant="10" id="QEV-bH-ySv"/>
+                                    <constraint firstItem="inz-YA-Qfu" firstAttribute="top" secondItem="rpq-aF-buC" secondAttribute="bottom" constant="20" id="QEV-bH-ySv"/>
                                     <constraint firstAttribute="trailing" secondItem="inz-YA-Qfu" secondAttribute="trailing" id="VfW-Vv-vtW"/>
                                     <constraint firstAttribute="trailing" secondItem="kkV-Hq-R6B" secondAttribute="trailing" id="Yuc-Hr-cQ8"/>
-                                    <constraint firstItem="Sp9-SG-gUv" firstAttribute="bottom" secondItem="rpq-aF-buC" secondAttribute="bottom" id="cu5-WK-0bi"/>
-                                    <constraint firstAttribute="trailing" secondItem="Sp9-SG-gUv" secondAttribute="trailing" constant="14" id="ddO-TN-JUP"/>
                                     <constraint firstItem="kkV-Hq-R6B" firstAttribute="top" secondItem="2un-Av-fXr" secondAttribute="top" id="emc-g8-WCB"/>
-                                    <constraint firstItem="L6V-gh-w7a" firstAttribute="top" secondItem="UVO-Mb-q3c" secondAttribute="bottom" constant="10" id="fcc-jW-t4j"/>
-                                    <constraint firstAttribute="bottom" secondItem="Z76-yT-dOk" secondAttribute="bottom" id="gLf-jh-158"/>
+                                    <constraint firstItem="L6V-gh-w7a" firstAttribute="top" secondItem="UVO-Mb-q3c" secondAttribute="bottom" constant="20" id="fcc-jW-t4j"/>
                                     <constraint firstAttribute="bottom" secondItem="inz-YA-Qfu" secondAttribute="bottom" id="jL7-2r-lTw"/>
                                     <constraint firstItem="L6V-gh-w7a" firstAttribute="leading" secondItem="2un-Av-fXr" secondAttribute="leading" constant="20" id="jqd-0e-AVg"/>
-                                    <constraint firstItem="Z76-yT-dOk" firstAttribute="top" secondItem="2un-Av-fXr" secondAttribute="top" id="oJL-B8-bbT"/>
                                     <constraint firstItem="inz-YA-Qfu" firstAttribute="leading" secondItem="2un-Av-fXr" secondAttribute="leading" id="qf7-02-SjH"/>
-                                    <constraint firstItem="Z76-yT-dOk" firstAttribute="leading" secondItem="2un-Av-fXr" secondAttribute="leading" id="tPN-8u-of0"/>
                                     <constraint firstItem="rpq-aF-buC" firstAttribute="leading" secondItem="2un-Av-fXr" secondAttribute="leading" constant="20" id="tfz-LH-tuN"/>
                                     <constraint firstAttribute="trailing" secondItem="L6V-gh-w7a" secondAttribute="trailing" constant="20" id="wft-Yw-JL7"/>
                                     <constraint firstItem="kkV-Hq-R6B" firstAttribute="leading" secondItem="2un-Av-fXr" secondAttribute="leading" id="ynq-3e-FEb"/>
@@ -129,7 +110,6 @@
                     </view>
                     <connections>
                         <outlet property="bottomText" destination="rpq-aF-buC" id="uRp-9F-Vk8"/>
-                        <outlet property="controlImage" destination="Z76-yT-dOk" id="4so-Et-cVZ"/>
                         <outlet property="launchCamera" destination="mE7-AI-4hA" id="FHH-31-8Am"/>
                         <outlet property="memImage" destination="kkV-Hq-R6B" id="J9Z-kq-RKy"/>
                         <outlet property="shareButton" destination="A06-yt-9aj" id="tkU-4U-VEl"/>
@@ -137,7 +117,6 @@
                         <outlet property="toolbarBottom" destination="inz-YA-Qfu" id="Pr8-Sv-slH"/>
                         <outlet property="topNavBar" destination="UVO-Mb-q3c" id="yXW-3c-IVp"/>
                         <outlet property="topText" destination="L6V-gh-w7a" id="bMu-zN-Vsc"/>
-                        <outletCollection property="controlImagePressed" destination="Z76-yT-dOk" collectionClass="NSMutableArray" id="4nM-9e-yDh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
