@@ -143,19 +143,37 @@ class ViewController: UIViewController {
     }
     
     func getMemImage() -> UIImage{
+        var newMemeImage: UIImage
+        
         toolbarBottom.isHidden = true //hide unwanted components on screen
         topNavBar.isHidden = true
+        
+        // set context to actualimage size only
+        if let image = memImage.image{
+            
+            let actualImageSize = frame(for: image, inImageViewAspectFit: memImage)
+            let frameSize = CGSize(width: actualImageSize.width, height: actualImageSize.height)
+            
+            print("actual size: \(actualImageSize)")
+            print("minX \(actualImageSize.minX)")
+            print("maxX \(actualImageSize.maxX)")
+            print("minY \(actualImageSize.minY)")
+            print("maxY \(actualImageSize.maxY)")
+            
+            // Render view to an image
+            UIGraphicsBeginImageContext(frameSize)
+            self.snapshotView.drawHierarchy(in: CGRect(x: -actualImageSize.minX, y: -actualImageSize.minY, width: self.snapshotView.frame.width, height: self.snapshotView.frame.height), afterScreenUpdates: true)
+            newMemeImage = UIGraphicsGetImageFromCurrentImageContext()!
+            UIGraphicsEndImageContext()
 
-        // Render view to an image
-        UIGraphicsBeginImageContext(self.memImage.frame.size)
-        self.snapshotView.drawHierarchy(in: CGRect(x: self.snapshotView.frame.origin.x, y: 0, width: self.snapshotView.frame.width, height: self.snapshotView.frame.height), afterScreenUpdates: true)
-        let memedImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()!
-        UIGraphicsEndImageContext()
+        } else{
+            newMemeImage = UIImage()
+        }
         
         toolbarBottom.isHidden = false
         topNavBar.isHidden = false
-        
-        return memedImage
+        print("new image size w/h: \(newMemeImage.size.width) \(newMemeImage.size.height)")
+        return newMemeImage
     }
     
     func saveMeme(newMemeImage: UIImage){
@@ -171,7 +189,7 @@ class ViewController: UIViewController {
         shareButton.isEnabled = false
     }
     
-    //get the actual image position inside a imageview when aspectfit is set
+    //get the actual image position inside an imageview when aspectfit is set
     func frame(for image: UIImage, inImageViewAspectFit imageView: UIImageView) -> CGRect {
         let imageRatio = (image.size.width / image.size.height)
         let viewRatio = imageView.frame.size.width / imageView.frame.size.height
@@ -190,15 +208,13 @@ class ViewController: UIViewController {
     
     func setTextToAspectFitImage(){
         if let image = memImage.image{
-            print("meme frame from fx \( memImage.frame)")
-            
-            let aspectImage = self.frame(for: image, inImageViewAspectFit: memImage)
-            let yOffset = aspectImage.minY < 50 ? CGFloat(10) : CGFloat(50)
-            let textLeftRightConstraint = aspectImage.minX > 10 ? CGFloat(aspectImage.minX) : CGFloat(20)
+            let actualImageSize = self.frame(for: image, inImageViewAspectFit: memImage)
+            let yOffset = actualImageSize.minY < 50 ? CGFloat(10) : CGFloat(50)
+            let textLeftRightConstraint = actualImageSize.minX > 10 ? CGFloat(actualImageSize.minX) : CGFloat(20)
             
             // set text y-position based
-            topTextConstraint.constant = aspectImage.minY - yOffset
-            bottomTextConstraint.constant = (memImage.frame.size.height - (aspectImage.height + aspectImage.minY) - yOffset)
+            topTextConstraint.constant = actualImageSize.minY - yOffset
+            bottomTextConstraint.constant = (memImage.frame.size.height - (actualImageSize.height + actualImageSize.minY) - yOffset)
             
             // set text width max to image width
             topTextConstraintLeft.constant = textLeftRightConstraint
