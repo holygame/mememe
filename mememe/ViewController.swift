@@ -209,7 +209,8 @@ class ViewController: UIViewController {
     func setTextToAspectFitImage(){
         if let image = memImage.image{
             let actualImageSize = self.frame(for: image, inImageViewAspectFit: memImage)
-            let yOffset = actualImageSize.minY < 50 ? CGFloat(10) : CGFloat(50)
+            var yOffset = actualImageSize.minY < 50 ? CGFloat(10) : CGFloat(50)
+            yOffset = 5
             let textLeftRightConstraint = actualImageSize.minX > 10 ? CGFloat(actualImageSize.minX) : CGFloat(20)
             
             // set text y-position based
