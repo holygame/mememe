@@ -24,6 +24,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var topTextConstraintRight: NSLayoutConstraint!
     @IBOutlet weak var bottomTextConstraintLeft: NSLayoutConstraint!
     @IBOutlet weak var bottomTextConstraintRight: NSLayoutConstraint!
+    @IBOutlet weak var topNavBarHeightConstraint: NSLayoutConstraint!
     
     // MARK: Variables & Struct
     var textInputDelegate = TextInputDelegate()
@@ -31,6 +32,7 @@ class ViewController: UIViewController {
     let defaultTopText = "TOP"
     let defaultBottomText = "BOTTOM"
     let defaultConstraint = CGFloat(20)
+    var orientation = UIDevice.current.orientation
     let memeTextAttributes:[String: Any] = [
         NSAttributedStringKey.font.rawValue: UIFont(name: "Impact", size: 40)!,
         NSAttributedStringKey.strokeColor.rawValue: UIColor.black,
@@ -62,9 +64,6 @@ class ViewController: UIViewController {
     
     @IBAction func pressedCancel(_ sender: Any) {
         resetMeme()
-        //let memImage = getMemImage()
-        //controlImage.image = memImage
-        //print(memImage)
     }
     
     @IBAction func sharePressed(_ sender: Any) {
@@ -105,9 +104,7 @@ class ViewController: UIViewController {
     
     // MARK: Functions
     @objc func deviceOrientationDidChange(_ notification: Notification) {
-        //let orientation = UIDevice.current.orientation
-        print("orientation new")
-        print(memImage.frame.size)
+        orientation = UIDevice.current.orientation
         setTextToAspectFitImage()
     }
     
@@ -148,19 +145,17 @@ class ViewController: UIViewController {
         toolbarBottom.isHidden = true //hide unwanted components on screen
         topNavBar.isHidden = true
         
-        // set context to actualimage size only
+        
+      // "automatic cropping" of the meme image to get rid of unwanted black borders in landscape or portrait mode:
+      // the actual meme-image is displayed inside an uimageview, which is set to aspectFit.
+      // so the dimensions of the imageview represents NOT always the real image dimension.
+      // the frame() function calculates the image dimension based on the image ratio and uiview size as cgrect.
+      // now we can set the graphics context to the image so only the image itself (and  it's text) is captured
+      // and NOT the full imageview with its potential borders in landscapr or portrait mode
         if let image = memImage.image{
-            
             let actualImageSize = frame(for: image, inImageViewAspectFit: memImage)
             let frameSize = CGSize(width: actualImageSize.width, height: actualImageSize.height)
             
-            print("actual size: \(actualImageSize)")
-            print("minX \(actualImageSize.minX)")
-            print("maxX \(actualImageSize.maxX)")
-            print("minY \(actualImageSize.minY)")
-            print("maxY \(actualImageSize.maxY)")
-            
-            // Render view to an image
             UIGraphicsBeginImageContext(frameSize)
             self.snapshotView.drawHierarchy(in: CGRect(x: -actualImageSize.minX, y: -actualImageSize.minY, width: self.snapshotView.frame.width, height: self.snapshotView.frame.height), afterScreenUpdates: true)
             newMemeImage = UIGraphicsGetImageFromCurrentImageContext()!
@@ -172,7 +167,6 @@ class ViewController: UIViewController {
         
         toolbarBottom.isHidden = false
         topNavBar.isHidden = false
-        print("new image size w/h: \(newMemeImage.size.width) \(newMemeImage.size.height)")
         return newMemeImage
     }
     
@@ -207,6 +201,13 @@ class ViewController: UIViewController {
     }
     
     func setTextToAspectFitImage(){
+        // adjust topnavbar heigth for landscape mode
+        if(orientation.isLandscape == false){
+            topNavBarHeightConstraint.constant = 44
+        }else{
+            topNavBarHeightConstraint.constant = 32
+        }
+        
         if let image = memImage.image{
             let actualImageSize = self.frame(for: image, inImageViewAspectFit: memImage)
             var yOffset = actualImageSize.minY < 50 ? CGFloat(10) : CGFloat(50)
@@ -222,7 +223,6 @@ class ViewController: UIViewController {
             topTextConstraintRight.constant = textLeftRightConstraint
             bottomTextConstraintLeft.constant = textLeftRightConstraint
             bottomTextConstraintRight.constant = textLeftRightConstraint
-            
         } else{
             print("no image")
             topTextConstraint.constant = defaultConstraint
