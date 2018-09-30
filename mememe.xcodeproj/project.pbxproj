@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A9126DBB2161026700B796A3 /* impact.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A9126DBA2161026700B796A3 /* impact.ttf */; };
 		A994A759214D85010095590F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A994A758214D85010095590F /* AppDelegate.swift */; };
 		A994A75B214D85010095590F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A994A75A214D85010095590F /* ViewController.swift */; };
 		A994A75E214D85010095590F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A994A75C214D85010095590F /* Main.storyboard */; };
@@ -35,6 +36,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A9126DBA2161026700B796A3 /* impact.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = impact.ttf; sourceTree = "<group>"; };
 		A994A755214D85010095590F /* mememe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mememe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A994A758214D85010095590F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A994A75A214D85010095590F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -76,6 +78,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A9126DB92161022600B796A3 /* fonts */ = {
+			isa = PBXGroup;
+			children = (
+				A9126DBA2161026700B796A3 /* impact.ttf */,
+			);
+			path = fonts;
+			sourceTree = "<group>";
+		};
 		A994A74C214D85010095590F = {
 			isa = PBXGroup;
 			children = (
@@ -99,6 +109,7 @@
 		A994A757214D85010095590F /* mememe */ = {
 			isa = PBXGroup;
 			children = (
+				A9126DB92161022600B796A3 /* fonts */,
 				A994A758214D85010095590F /* AppDelegate.swift */,
 				A994A75A214D85010095590F /* ViewController.swift */,
 				A994A786214DAB520095590F /* TextInputDelegate.swift */,
@@ -232,6 +243,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A9126DBB2161026700B796A3 /* impact.ttf in Resources */,
 				A994A763214D85010095590F /* LaunchScreen.storyboard in Resources */,
 				A994A760214D85010095590F /* Assets.xcassets in Resources */,
 				A994A75E214D85010095590F /* Main.storyboard in Resources */,

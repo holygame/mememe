@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="impact.ttf">
+            <string>Impact</string>
+        </array>
+    </customFonts>
     <scenes>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
@@ -42,24 +47,6 @@
                                             </navigationItem>
                                         </items>
                                     </navigationBar>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="TOP" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="L6V-gh-w7a" userLabel="Top Text">
-                                        <rect key="frame" x="20" y="64" width="335" height="60"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="60" id="idl-d7-V8j"/>
-                                        </constraints>
-                                        <color key="textColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" autocapitalizationType="allCharacters"/>
-                                    </textField>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="BOTTOM" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rpq-aF-buC" userLabel="Bottom Text">
-                                        <rect key="frame" x="20" y="523" width="335" height="60"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="60" id="AeE-x7-78o"/>
-                                        </constraints>
-                                        <color key="textColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" autocapitalizationType="allCharacters"/>
-                                    </textField>
                                     <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="inz-YA-Qfu">
                                         <rect key="frame" x="0.0" y="603" width="375" height="44"/>
                                         <items>
@@ -77,6 +64,24 @@
                                             <barButtonItem style="plain" systemItem="flexibleSpace" id="AiX-gg-Mtx"/>
                                         </items>
                                     </toolbar>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="TOP" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="L6V-gh-w7a" userLabel="Top Text">
+                                        <rect key="frame" x="20" y="64" width="335" height="60"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="60" id="idl-d7-V8j"/>
+                                        </constraints>
+                                        <color key="textColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <fontDescription key="fontDescription" name="Impact" family="Impact" pointSize="20"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="allCharacters"/>
+                                    </textField>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="BOTTOM" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rpq-aF-buC" userLabel="Bottom Text">
+                                        <rect key="frame" x="20" y="523" width="335" height="60"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="60" id="AeE-x7-78o"/>
+                                        </constraints>
+                                        <color key="textColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <fontDescription key="fontDescription" name="Impact" family="Impact" pointSize="17"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="allCharacters"/>
+                                    </textField>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
@@ -111,6 +116,8 @@
                     <connections>
                         <outlet property="bottomText" destination="rpq-aF-buC" id="uRp-9F-Vk8"/>
                         <outlet property="bottomTextConstraint" destination="QEV-bH-ySv" id="BAM-1U-ipx"/>
+                        <outlet property="bottomTextConstraintLeft" destination="tfz-LH-tuN" id="6o6-tn-g1j"/>
+                        <outlet property="bottomTextConstraintRight" destination="zSL-ib-Ac5" id="TmL-u8-Wad"/>
                         <outlet property="launchCamera" destination="mE7-AI-4hA" id="FHH-31-8Am"/>
                         <outlet property="memImage" destination="kkV-Hq-R6B" id="J9Z-kq-RKy"/>
                         <outlet property="shareButton" destination="A06-yt-9aj" id="tkU-4U-VEl"/>
@@ -119,6 +126,8 @@
                         <outlet property="topNavBar" destination="UVO-Mb-q3c" id="yXW-3c-IVp"/>
                         <outlet property="topText" destination="L6V-gh-w7a" id="bMu-zN-Vsc"/>
                         <outlet property="topTextConstraint" destination="fcc-jW-t4j" id="k53-og-AF2"/>
+                        <outlet property="topTextConstraintLeft" destination="jqd-0e-AVg" id="uiO-d8-7Hp"/>
+                        <outlet property="topTextConstraintRight" destination="wft-Yw-JL7" id="bzr-40-PGg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

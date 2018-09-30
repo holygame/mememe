@@ -20,14 +20,19 @@ class ViewController: UIViewController {
     @IBOutlet weak var snapshotView: UIView!
     @IBOutlet weak var topTextConstraint: NSLayoutConstraint!
     @IBOutlet weak var bottomTextConstraint: NSLayoutConstraint!
+    @IBOutlet weak var topTextConstraintLeft: NSLayoutConstraint!
+    @IBOutlet weak var topTextConstraintRight: NSLayoutConstraint!
+    @IBOutlet weak var bottomTextConstraintLeft: NSLayoutConstraint!
+    @IBOutlet weak var bottomTextConstraintRight: NSLayoutConstraint!
     
     // MARK: Variables & Struct
     var textInputDelegate = TextInputDelegate()
     var memImageMovedUp = false
     let defaultTopText = "TOP"
     let defaultBottomText = "BOTTOM"
+    let defaultConstraint = CGFloat(20)
     let memeTextAttributes:[String: Any] = [
-        NSAttributedStringKey.font.rawValue: UIFont(name: "HelveticaNeue-CondensedBlack", size: 40)!,
+        NSAttributedStringKey.font.rawValue: UIFont(name: "Impact", size: 40)!,
         NSAttributedStringKey.strokeColor.rawValue: UIColor.black,
         NSAttributedStringKey.foregroundColor.rawValue: UIColor.white,
         NSAttributedStringKey.strokeWidth.rawValue: -4,
@@ -76,7 +81,6 @@ class ViewController: UIViewController {
         self.present(activityController, animated: true, completion: nil)
     }
     
-    
     // MARK: Overrides
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -88,56 +92,35 @@ class ViewController: UIViewController {
         bottomText.defaultTextAttributes = memeTextAttributes
         bottomText.textAlignment = .center
         bottomText.delegate = textInputDelegate
-        setupText(isLandscape: isLandscape())
-        
+        shareButton.isEnabled = false
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        subscriptToKeybordNotification()
+        subscribeToNotification()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        NotificationCenter.default.removeObserver(self, name: .UIKeyboardWillShow, object: nil)
-    }
-    
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransition(to: size, with: coordinator)
-        if UIDevice.current.orientation.isLandscape {
-            self.setupText(isLandscape: true)
-        } else {
-            self.setupText(isLandscape: false)
-        }
+         unsubscribeNotification()
     }
     
     // MARK: Functions
-    
-    func isLandscape() -> Bool{
-        let size = UIScreen.main.bounds.size
-        if size.width < size.height {
-            return false
-        } else {
-            return true
-        }
+    @objc func deviceOrientationDidChange(_ notification: Notification) {
+        //let orientation = UIDevice.current.orientation
+        print("orientation new")
+        print(memImage.frame.size)
+        setTextToAspectFitImage()
     }
     
-    func setupText(isLandscape: Bool){
-        if isLandscape == true{
-            self.topTextConstraint.constant = -10
-            self.bottomTextConstraint.constant = -10
-        }else{
-            self.topTextConstraint.constant = 10
-            self.bottomTextConstraint.constant = 10
-        }
-    }
-
-    func subscriptToKeybordNotification(){
+    func subscribeToNotification(){
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillAppear(_:)), name: .UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillDisappear(_:)), name: .UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(deviceOrientationDidChange), name: .UIDeviceOrientationDidChange, object: nil)
     }
     
-    func unsubscripbeKeybordNotification(){
+    func unsubscribeNotification(){
         NotificationCenter.default.removeObserver(self, name: .UIKeyboardWillShow, object: nil)
         NotificationCenter.default.removeObserver(self, name: .UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .UIDeviceOrientationDidChange, object: nil)
     }
     
     @objc func keyboardWillAppear(_ notification: Notification){
@@ -166,7 +149,6 @@ class ViewController: UIViewController {
         // Render view to an image
         UIGraphicsBeginImageContext(self.memImage.frame.size)
         self.snapshotView.drawHierarchy(in: CGRect(x: self.snapshotView.frame.origin.x, y: 0, width: self.snapshotView.frame.width, height: self.snapshotView.frame.height), afterScreenUpdates: true)
-        
         let memedImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
         
@@ -184,7 +166,55 @@ class ViewController: UIViewController {
     func resetMeme(){
         topText.text = defaultTopText
         bottomText.text = defaultBottomText
-        memImage.image = UIImage()
+        memImage.image = nil
+        setTextToAspectFitImage()
+        shareButton.isEnabled = false
+    }
+    
+    //get the actual image position inside a imageview when aspectfit is set
+    func frame(for image: UIImage, inImageViewAspectFit imageView: UIImageView) -> CGRect {
+        let imageRatio = (image.size.width / image.size.height)
+        let viewRatio = imageView.frame.size.width / imageView.frame.size.height
+        if imageRatio < viewRatio {
+            let scale = imageView.frame.size.height / image.size.height
+            let width = scale * image.size.width
+            let topLeftX = (imageView.frame.size.width - width) * 0.5
+            return CGRect(x: topLeftX, y: 0, width: width, height: imageView.frame.size.height)
+        } else {
+            let scale = imageView.frame.size.width / image.size.width
+            let height = scale * image.size.height
+            let topLeftY = (imageView.frame.size.height - height) * 0.5
+            return CGRect(x: 0.0, y: topLeftY, width: imageView.frame.size.width, height: height)
+        }
+    }
+    
+    func setTextToAspectFitImage(){
+        if let image = memImage.image{
+            print("meme frame from fx \( memImage.frame)")
+            
+            let aspectImage = self.frame(for: image, inImageViewAspectFit: memImage)
+            let yOffset = aspectImage.minY < 50 ? CGFloat(10) : CGFloat(50)
+            let textLeftRightConstraint = aspectImage.minX > 10 ? CGFloat(aspectImage.minX) : CGFloat(20)
+            
+            // set text y-position based
+            topTextConstraint.constant = aspectImage.minY - yOffset
+            bottomTextConstraint.constant = (memImage.frame.size.height - (aspectImage.height + aspectImage.minY) - yOffset)
+            
+            // set text width max to image width
+            topTextConstraintLeft.constant = textLeftRightConstraint
+            topTextConstraintRight.constant = textLeftRightConstraint
+            bottomTextConstraintLeft.constant = textLeftRightConstraint
+            bottomTextConstraintRight.constant = textLeftRightConstraint
+            
+        } else{
+            print("no image")
+            topTextConstraint.constant = defaultConstraint
+            bottomTextConstraint.constant = defaultConstraint
+            topTextConstraintLeft.constant = defaultConstraint
+            topTextConstraintRight.constant = defaultConstraint
+            bottomTextConstraintLeft.constant = defaultConstraint
+            bottomTextConstraintRight.constant = defaultConstraint
+        }
     }
 }
 
@@ -195,6 +225,8 @@ extension ViewController: UIImagePickerControllerDelegate, UINavigationControlle
             self.memImage.image = image
             self.memImage.contentMode = .scaleAspectFit
             self.memImage.clipsToBounds = false
+            setTextToAspectFitImage()
+            shareButton.isEnabled = true
         }
         dismiss(animated: true, completion: nil)
     }
