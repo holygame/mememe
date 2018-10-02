@@ -42,8 +42,8 @@ class ViewController: UIViewController {
         ]
     
     struct Meme{
-        var topText = "Top"
-        var bottomText = "Bottom"
+        var topText = ""
+        var bottomText = ""
         var originalImage = UIImage()
         var memImage = UIImage()
     }
@@ -84,7 +84,7 @@ class ViewController: UIViewController {
     // MARK: Overrides
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+
         launchCamera.isEnabled = UIImagePickerController.isSourceTypeAvailable(.camera)
         topText.defaultTextAttributes = memeTextAttributes
         topText.textAlignment = .center
@@ -107,7 +107,6 @@ class ViewController: UIViewController {
     @objc func deviceOrientationDidChange(_ notification: Notification) {
         orientation = UIDevice.current.orientation
         setTextToAspectFitImage()
-        
     }
     
     func subscribeToNotification(){
@@ -144,10 +143,10 @@ class ViewController: UIViewController {
     func getMemImage() -> UIImage{
         var newMemeImage: UIImage
         
-        toolbarBottom.isHidden = true //hide unwanted components on screen
+        toolbarBottom.isHidden = true
         topNavBar.isHidden = true
         
-        // "automatic cropping" of the meme image to get rid of unwanted black borders in landscape or portrait mode:
+        // "automatic cropping" of the meme image to get rid of unwanted image borders in landscape or portrait mode:
         // the actual meme-image is displayed inside an uimageview, which is set to aspectFit.
         // so the dimensions of the imageview represents NOT always the real image dimension.
         // the frame() function calculates the image dimension based on the image ratio inside the uiview as cgrect.
@@ -185,7 +184,7 @@ class ViewController: UIViewController {
         shareButton.isEnabled = false
     }
     
-    //get the actual image position inside an imageview when aspectfit is set
+    //get the actual image position inside an imageview when aspectfit is set (from stackoverflow)
     func frame(for image: UIImage, inImageViewAspectFit imageView: UIImageView) -> CGRect {
         let imageRatio = (image.size.width / image.size.height)
         let viewRatio = imageView.frame.size.width / imageView.frame.size.height
@@ -203,7 +202,7 @@ class ViewController: UIViewController {
     }
     
     func setTextToAspectFitImage(){
-        // adjust topnavbar heigth for landscape/portrait mode
+        // adjust topnavbar height for landscape/portrait mode
         if(orientation.isLandscape == false){
             topNavBarHeightConstraint.constant = 44
         }
@@ -216,20 +215,16 @@ class ViewController: UIViewController {
         
         if let image = memImage.image{
             let actualImageSize = self.frame(for: image, inImageViewAspectFit: memImage)
-            
             let textLeftRightConstraint = actualImageSize.minX > 10 ? CGFloat(actualImageSize.minX) : CGFloat(20)
             
-            // set text y-position based
+            // set text constraints for positioning
             topTextConstraint.constant = actualImageSize.minY - 5
             bottomTextConstraint.constant = (memImage.frame.size.height - (actualImageSize.height + actualImageSize.minY) - 6)
-            
-            // set text width max to image width
             topTextConstraintLeft.constant = textLeftRightConstraint
             topTextConstraintRight.constant = textLeftRightConstraint
             bottomTextConstraintLeft.constant = textLeftRightConstraint
             bottomTextConstraintRight.constant = textLeftRightConstraint
         } else{
-            print("no image")
             topTextConstraint.constant = defaultConstraint
             bottomTextConstraint.constant = defaultConstraint
             topTextConstraintLeft.constant = defaultConstraint
