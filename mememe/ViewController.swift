@@ -26,7 +26,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var bottomTextConstraintRight: NSLayoutConstraint!
     @IBOutlet weak var topNavBarHeightConstraint: NSLayoutConstraint!
     
-    // MARK: Variables & Struct
+    // MARK: Variables
     var textInputDelegate = TextInputDelegate()
     var memImageMovedUp = false
     let defaultTopText = "TOP"
@@ -34,33 +34,14 @@ class ViewController: UIViewController {
     let defaultConstraint = CGFloat(20)
     var orientation = UIDevice.current.orientation
     var lastOrientation = UIDevice.current.orientation
-    let memeTextAttributes:[String: Any] = [
-        NSAttributedStringKey.font.rawValue: UIFont(name: "Impact", size: 40)!,
-        NSAttributedStringKey.strokeColor.rawValue: UIColor.black,
-        NSAttributedStringKey.foregroundColor.rawValue: UIColor.white,
-        NSAttributedStringKey.strokeWidth.rawValue: -4,
-        ]
-    
-    struct Meme{
-        var topText = ""
-        var bottomText = ""
-        var originalImage = UIImage()
-        var memImage = UIImage()
-    }
 
     // MARK: IBActions
     @IBAction func launchLibrary(_ sender: Any) {
-        let imagePicker = UIImagePickerController()
-        imagePicker.sourceType = .photoLibrary
-        imagePicker.delegate = self
-        present(imagePicker, animated: true, completion: nil)
+        chooseImageFromCameraOrPhoto(source: .photoLibrary)
     }
     
     @IBAction func launchCamera(_ sender: Any) {
-        let cameraPicker = UIImagePickerController()
-        cameraPicker.sourceType = .camera
-        cameraPicker.delegate  = self
-        present(cameraPicker, animated: true, completion: nil)
+        chooseImageFromCameraOrPhoto(source: .camera)
     }
     
     @IBAction func pressedCancel(_ sender: Any) {
@@ -84,14 +65,9 @@ class ViewController: UIViewController {
     // MARK: Overrides
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        setupTextField(tf: topText, text: defaultTopText)
+        setupTextField(tf: bottomText, text: defaultBottomText)
         launchCamera.isEnabled = UIImagePickerController.isSourceTypeAvailable(.camera)
-        topText.defaultTextAttributes = memeTextAttributes
-        topText.textAlignment = .center
-        topText.delegate = textInputDelegate
-        bottomText.defaultTextAttributes = memeTextAttributes
-        bottomText.textAlignment = .center
-        bottomText.delegate = textInputDelegate
         shareButton.isEnabled = false
     }
     
@@ -107,6 +83,28 @@ class ViewController: UIViewController {
     @objc func deviceOrientationDidChange(_ notification: Notification) {
         orientation = UIDevice.current.orientation
         setTextToAspectFitImage()
+    }
+    
+    func chooseImageFromCameraOrPhoto(source: UIImagePickerControllerSourceType) {
+        let pickerController = UIImagePickerController()
+        pickerController.delegate = self
+        pickerController.allowsEditing = true
+        pickerController.sourceType = source
+        present(pickerController, animated: true, completion: nil)
+    }
+    
+    func setupTextField(tf: UITextField, text: String) {
+        tf.defaultTextAttributes = [
+            NSAttributedStringKey.font.rawValue: UIFont(name: "Impact", size: 40)!,
+            NSAttributedStringKey.strokeColor.rawValue: UIColor.black,
+            NSAttributedStringKey.foregroundColor.rawValue: UIColor.white,
+            NSAttributedStringKey.strokeWidth.rawValue: -4,
+        ]
+        tf.textColor = UIColor.white
+        tf.tintColor = UIColor.white
+        tf.textAlignment = .center
+        tf.text = text
+        tf.delegate = textInputDelegate
     }
     
     func subscribeToNotification(){
