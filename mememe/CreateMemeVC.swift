@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class CreateMemeVC: UIViewController {
     // MARK: IBOutets
     @IBOutlet weak var memImage: UIImageView!
     @IBOutlet weak var launchCamera: UIBarButtonItem!
@@ -52,12 +52,9 @@ class ViewController: UIViewController {
         let memImage = getMemImage()
         let activityController = UIActivityViewController(activityItems: [memImage], applicationActivities: nil)
         activityController.completionWithItemsHandler = {(activityType: UIActivityType?, completed: Bool, returnedItems: [Any]?, error: Error?) in
-            if !completed {
-                // User canceled; do nothing
-                return
+            if completed {
+               self.saveMeme(newMemeImage: memImage)
             }
-            // User completed activity, save meme
-            self.saveMeme(newMemeImage: memImage)
         }
         self.present(activityController, animated: true, completion: nil)
     }
@@ -141,8 +138,7 @@ class ViewController: UIViewController {
     func getMemImage() -> UIImage{
         var newMemeImage: UIImage
         
-        toolbarBottom.isHidden = true
-        topNavBar.isHidden = true
+        hideToolbars(true)
         
         // "automatic cropping" of the meme image to get rid of unwanted image borders in landscape or portrait mode:
         // the actual meme-image is displayed inside an uimageview, which is set to aspectFit.
@@ -163,8 +159,7 @@ class ViewController: UIViewController {
             newMemeImage = UIImage()
         }
         
-        toolbarBottom.isHidden = false
-        topNavBar.isHidden = false
+        hideToolbars(false)
         
         return newMemeImage
     }
@@ -231,10 +226,15 @@ class ViewController: UIViewController {
             bottomTextConstraintRight.constant = defaultConstraint
         }
     }
+    
+    func hideToolbars(_ hide:Bool){
+        toolbarBottom.isHidden = hide
+        topNavBar.isHidden = hide
+    }
 }
 
 // MARK: Extension
-extension ViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate{
+extension CreateMemeVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate{
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
             self.memImage.image = image
