@@ -16,6 +16,9 @@
 		A994A76E214D85010095590F /* mememeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A994A76D214D85010095590F /* mememeTests.swift */; };
 		A994A779214D85010095590F /* mememeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A994A778214D85010095590F /* mememeUITests.swift */; };
 		A994A787214DAB520095590F /* TextInputDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A994A786214DAB520095590F /* TextInputDelegate.swift */; };
+		A9ABAED02180CD0A0053B832 /* SentMemesTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9ABAECF2180CD0A0053B832 /* SentMemesTableVC.swift */; };
+		A9ABAED92180F2880053B832 /* SentMemesCollectionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9ABAED82180F2880053B832 /* SentMemesCollectionVC.swift */; };
+		A9ABAEDB2180F2ED0053B832 /* SentMemeCollectionCellVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9ABAEDA2180F2ED0053B832 /* SentMemeCollectionCellVC.swift */; };
 		A9F8F8CE216796A300D2F154 /* Meme.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9F8F8CD216796A300D2F154 /* Meme.swift */; };
 /* End PBXBuildFile section */
 
@@ -52,6 +55,9 @@
 		A994A778214D85010095590F /* mememeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mememeUITests.swift; sourceTree = "<group>"; };
 		A994A77A214D85010095590F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A994A786214DAB520095590F /* TextInputDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextInputDelegate.swift; sourceTree = "<group>"; };
+		A9ABAECF2180CD0A0053B832 /* SentMemesTableVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentMemesTableVC.swift; sourceTree = "<group>"; };
+		A9ABAED82180F2880053B832 /* SentMemesCollectionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentMemesCollectionVC.swift; sourceTree = "<group>"; };
+		A9ABAEDA2180F2ED0053B832 /* SentMemeCollectionCellVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentMemeCollectionCellVC.swift; sourceTree = "<group>"; };
 		A9F8F8CD216796A300D2F154 /* Meme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Meme.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -111,9 +117,9 @@
 		A994A757214D85010095590F /* mememe */ = {
 			isa = PBXGroup;
 			children = (
+				A9ABAED72180F23B0053B832 /* ViewController */,
 				A9126DB92161022600B796A3 /* fonts */,
 				A994A758214D85010095590F /* AppDelegate.swift */,
-				A994A75A214D85010095590F /* CreateMemeVC.swift */,
 				A9F8F8CD216796A300D2F154 /* Meme.swift */,
 				A994A786214DAB520095590F /* TextInputDelegate.swift */,
 				A994A75C214D85010095590F /* Main.storyboard */,
@@ -140,6 +146,17 @@
 				A994A77A214D85010095590F /* Info.plist */,
 			);
 			path = mememeUITests;
+			sourceTree = "<group>";
+		};
+		A9ABAED72180F23B0053B832 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				A994A75A214D85010095590F /* CreateMemeVC.swift */,
+				A9ABAECF2180CD0A0053B832 /* SentMemesTableVC.swift */,
+				A9ABAED82180F2880053B832 /* SentMemesCollectionVC.swift */,
+				A9ABAEDA2180F2ED0053B832 /* SentMemeCollectionCellVC.swift */,
+			);
+			path = ViewController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -275,9 +292,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				A9F8F8CE216796A300D2F154 /* Meme.swift in Sources */,
+				A9ABAEDB2180F2ED0053B832 /* SentMemeCollectionCellVC.swift in Sources */,
 				A994A75B214D85010095590F /* CreateMemeVC.swift in Sources */,
+				A9ABAED92180F2880053B832 /* SentMemesCollectionVC.swift in Sources */,
 				A994A787214DAB520095590F /* TextInputDelegate.swift in Sources */,
 				A994A759214D85010095590F /* AppDelegate.swift in Sources */,
+				A9ABAED02180CD0A0053B832 /* SentMemesTableVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

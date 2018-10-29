@@ -45,7 +45,9 @@ class CreateMemeVC: UIViewController {
     }
     
     @IBAction func pressedCancel(_ sender: Any) {
-        resetMeme()
+        //resetMeme()
+        let sentMemesVC = storyboard!.instantiateViewController(withIdentifier: "SentMemesTableVC") as! SentMemesTableVC
+        self.navigationController?.popToRootViewController(animated: true)
     }
     
     @IBAction func sharePressed(_ sender: Any) {
@@ -69,6 +71,9 @@ class CreateMemeVC: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        // Hide the navigation bar on the this view controller
+        self.navigationController?.setNavigationBarHidden(true, animated: animated)
+        self.tabBarController?.tabBar.isHidden = true
         subscribeToNotification()
     }
     
@@ -165,8 +170,14 @@ class CreateMemeVC: UIViewController {
     }
     
     func saveMeme(newMemeImage: UIImage){
-        let mem = Meme(topText: topText.text!, bottomText: bottomText.text!, originalImage: self.memImage.image!, memImage: newMemeImage)
-        print(mem)
+        let meme = Meme(topText: topText.text!, bottomText: bottomText.text!, originalImage: self.memImage.image!, memImage: newMemeImage)
+        
+        // Add meme to memes in App Delegate
+        let object = UIApplication.shared.delegate
+        let appDelegate = object as! AppDelegate
+        appDelegate.memes.append(meme)
+        
+ 
     }
     
     func resetMeme(){
