@@ -64,7 +64,7 @@
                                     <constraint firstAttribute="height" constant="44" id="Xhv-Yu-YUz"/>
                                 </constraints>
                                 <items>
-                                    <navigationItem title="Title" id="71A-Sz-5gi">
+                                    <navigationItem title="MemeMe" id="71A-Sz-5gi">
                                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="95a-rQ-g3T">
                                             <connections>
                                                 <action selector="createMeme:" destination="dOQ-Lg-nkA" id="i8F-qi-KJc"/>

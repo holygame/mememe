@@ -29,11 +29,14 @@ class CreateMemeVC: UIViewController {
     // MARK: Variables
     var textInputDelegate = TextInputDelegate()
     var memImageMovedUp = false
-    let defaultTopText = "TOP"
-    let defaultBottomText = "BOTTOM"
+    var textTop = "TOP"
+    var textBottom = "BOTTOM"
     let defaultConstraint = CGFloat(20)
     var orientation = UIDevice.current.orientation
     var lastOrientation = UIDevice.current.orientation
+    var savedMeme: Meme?
+    var unwindToController: UIViewController?
+    var forceUnwindToRoot = false
 
     // MARK: IBActions
     @IBAction func launchLibrary(_ sender: Any) {
@@ -45,9 +48,13 @@ class CreateMemeVC: UIViewController {
     }
     
     @IBAction func pressedCancel(_ sender: Any) {
-        //resetMeme()
-        let sentMemesVC = storyboard!.instantiateViewController(withIdentifier: "SentMemesTableVC") as! SentMemesTableVC
-        self.navigationController?.popToRootViewController(animated: true)
+        
+        if let unwindToController = self.unwindToController, forceUnwindToRoot == false{
+            print(unwindToController)
+            self.navigationController?.popToViewController(unwindToController, animated: true)
+        } else{
+            self.navigationController?.popToRootViewController(animated: true)
+        }
     }
     
     @IBAction func sharePressed(_ sender: Any) {
@@ -65,9 +72,6 @@ class CreateMemeVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
-        setupTextField(tf: topText, text: defaultTopText)
-        setupTextField(tf: bottomText, text: defaultBottomText)
-        subscribeToNotification()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -98,6 +102,18 @@ class CreateMemeVC: UIViewController {
         self.tabBarController?.tabBar.isHidden = true
         launchCamera.isEnabled = UIImagePickerController.isSourceTypeAvailable(.camera)
         shareButton.isEnabled = false
+        subscribeToNotification()
+        
+        //set saved meme text & image if user comes fromn tableview
+        if let savedMeme = savedMeme{
+            textTop = savedMeme.topText
+            textBottom  = savedMeme.bottomText
+            memImage.image = savedMeme.originalImage
+            shareButton.isEnabled = true
+        }
+        
+        setupTextField(tf: topText, text: textTop)
+        setupTextField(tf: bottomText, text: textBottom)
     }
     
     func setupTextField(tf: UITextField, text: String) {
@@ -176,16 +192,18 @@ class CreateMemeVC: UIViewController {
     
     func saveMeme(newMemeImage: UIImage){
         let meme = Meme(topText: topText.text!, bottomText: bottomText.text!, originalImage: self.memImage.image!, memImage: newMemeImage)
+        forceUnwindToRoot = true
         
         // Add meme to memes in App Delegate
         let object = UIApplication.shared.delegate
         let appDelegate = object as! AppDelegate
         appDelegate.memes.append(meme)
+        
     }
     
     func resetMeme(){
-        topText.text = defaultTopText
-        bottomText.text = defaultBottomText
+        topText.text = "TOP"
+        bottomText.text = "Buttom"
         memImage.image = nil
         setTextToAspectFitImage()
         shareButton.isEnabled = false
@@ -245,6 +263,7 @@ class CreateMemeVC: UIViewController {
         toolbarBottom.isHidden = hide
         topNavBar.isHidden = hide
     }
+    
 }
 
 // MARK: Extension

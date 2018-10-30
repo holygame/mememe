@@ -21,6 +21,7 @@ class SentMemesTableVC: UIViewController, UITableViewDelegate, UITableViewDataSo
     var memes: [Meme]! {
         let object = UIApplication.shared.delegate
         let appDelegate = object as! AppDelegate
+        appDelegate.memes.reverse()
         return appDelegate.memes
     }
     
@@ -82,7 +83,7 @@ class SentMemesTableVC: UIViewController, UITableViewDelegate, UITableViewDataSo
         if let meme = memes[(indexPath as IndexPath).row] as Meme? {
             print(meme)
             let detailVC = self.storyboard!.instantiateViewController(withIdentifier: "DetailView") as! DetailViewVC
-            detailVC.memeImageDelegate = meme.memImage
+            detailVC.meme = meme
             
             self.navigationController?.pushViewController(detailVC, animated: true)
         }

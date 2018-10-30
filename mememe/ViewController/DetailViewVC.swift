@@ -9,22 +9,34 @@
 import UIKit
 
 class DetailViewVC: UIViewController {
-
-    var memeImageDelegate = UIImage()
+    
+    var meme: Meme!
     @IBOutlet weak var memeImage: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setup()
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+         setup()
     }
     
     func setup(){
         self.navigationController?.setNavigationBarHidden(false, animated: true)
         self.tabBarController?.tabBar.isHidden = true
-        memeImage.image = memeImageDelegate
+        self.navigationItem.setRightBarButton(UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editMeme)), animated: true)
+        memeImage.image = meme.memImage
     }
 
+    @objc func editMeme(){
+        print("EditMeme")
+        let editVC = self.storyboard!.instantiateViewController(withIdentifier: "CreateMemeVC") as! CreateMemeVC
+        editVC.savedMeme = meme
+        editVC.unwindToController = self 
+        
+        self.navigationController?.pushViewController(editVC, animated: true)
+    }
     /*
     // MARK: - Navigation
 
