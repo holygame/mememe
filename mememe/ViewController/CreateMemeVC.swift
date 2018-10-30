@@ -64,17 +64,15 @@ class CreateMemeVC: UIViewController {
     // MARK: Overrides
     override func viewDidLoad() {
         super.viewDidLoad()
+        setup()
         setupTextField(tf: topText, text: defaultTopText)
         setupTextField(tf: bottomText, text: defaultBottomText)
-        launchCamera.isEnabled = UIImagePickerController.isSourceTypeAvailable(.camera)
-        shareButton.isEnabled = false
+        subscribeToNotification()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         // Hide the navigation bar on the this view controller
-        self.navigationController?.setNavigationBarHidden(true, animated: animated)
-        self.tabBarController?.tabBar.isHidden = true
-        subscribeToNotification()
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -93,6 +91,13 @@ class CreateMemeVC: UIViewController {
         pickerController.allowsEditing = true
         pickerController.sourceType = source
         present(pickerController, animated: true, completion: nil)
+    }
+    
+    func setup(){
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
+        self.tabBarController?.tabBar.isHidden = true
+        launchCamera.isEnabled = UIImagePickerController.isSourceTypeAvailable(.camera)
+        shareButton.isEnabled = false
     }
     
     func setupTextField(tf: UITextField, text: String) {
@@ -176,8 +181,6 @@ class CreateMemeVC: UIViewController {
         let object = UIApplication.shared.delegate
         let appDelegate = object as! AppDelegate
         appDelegate.memes.append(meme)
-        
- 
     }
     
     func resetMeme(){

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A9126DBB2161026700B796A3 /* impact.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A9126DBA2161026700B796A3 /* impact.ttf */; };
+		A993396C2188F32600D43FB0 /* DetailViewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A993396B2188F32600D43FB0 /* DetailViewVC.swift */; };
 		A994A759214D85010095590F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A994A758214D85010095590F /* AppDelegate.swift */; };
 		A994A75B214D85010095590F /* CreateMemeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A994A75A214D85010095590F /* CreateMemeVC.swift */; };
 		A994A75E214D85010095590F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A994A75C214D85010095590F /* Main.storyboard */; };
@@ -41,6 +42,7 @@
 
 /* Begin PBXFileReference section */
 		A9126DBA2161026700B796A3 /* impact.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = impact.ttf; sourceTree = "<group>"; };
+		A993396B2188F32600D43FB0 /* DetailViewVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewVC.swift; sourceTree = "<group>"; };
 		A994A755214D85010095590F /* mememe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mememe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A994A758214D85010095590F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A994A75A214D85010095590F /* CreateMemeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateMemeVC.swift; sourceTree = "<group>"; };
@@ -151,6 +153,7 @@
 		A9ABAED72180F23B0053B832 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				A993396B2188F32600D43FB0 /* DetailViewVC.swift */,
 				A994A75A214D85010095590F /* CreateMemeVC.swift */,
 				A9ABAECF2180CD0A0053B832 /* SentMemesTableVC.swift */,
 				A9ABAED82180F2880053B832 /* SentMemesCollectionVC.swift */,
@@ -295,6 +298,7 @@
 				A9ABAEDB2180F2ED0053B832 /* SentMemeCollectionCellVC.swift in Sources */,
 				A994A75B214D85010095590F /* CreateMemeVC.swift in Sources */,
 				A9ABAED92180F2880053B832 /* SentMemesCollectionVC.swift in Sources */,
+				A993396C2188F32600D43FB0 /* DetailViewVC.swift in Sources */,
 				A994A787214DAB520095590F /* TextInputDelegate.swift in Sources */,
 				A994A759214D85010095590F /* AppDelegate.swift in Sources */,
 				A9ABAED02180CD0A0053B832 /* SentMemesTableVC.swift in Sources */,
