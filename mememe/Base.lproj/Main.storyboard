@@ -39,7 +39,7 @@
         <scene sceneID="qhO-3q-O3F">
             <objects>
                 <navigationController id="Wrb-Zq-7Om" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" image="listView1" id="Sp7-pC-qAP"/>
+                    <tabBarItem key="tabBarItem" image="list5" id="Sp7-pC-qAP"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" barStyle="black" id="t1G-Pr-M8H">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -236,15 +236,15 @@
             </objects>
             <point key="canvasLocation" x="-855" y="312"/>
         </scene>
-        <!--Sent Memes Collection View Controller-->
+        <!--Sent Memes CollectionVC-->
         <scene sceneID="NIW-1u-wCW">
             <objects>
-                <viewController id="ojc-ZZ-KZG" customClass="SentMemesCollectionViewController" customModule="mememe" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SentMemesCollectionVC" id="ojc-ZZ-KZG" customClass="SentMemesCollectionVC" customModule="mememe" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="KaA-87-EZ6">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="LTF-GZ-h7Z">
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" indicatorStyle="black" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="LTF-GZ-h7Z">
                                 <rect key="frame" x="0.0" y="108" width="375" height="510"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="3IH-Ee-ke5">
@@ -261,11 +261,13 @@
                                             <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="war-FJ-HBi">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="war-FJ-HBi">
                                                     <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
                                                 </imageView>
                                             </subviews>
                                         </view>
+                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="trailing" secondItem="war-FJ-HBi" secondAttribute="trailing" id="3DM-aQ-wam"/>
                                             <constraint firstItem="war-FJ-HBi" firstAttribute="top" secondItem="EuX-xc-EQ7" secondAttribute="top" id="GBJ-aU-1jh"/>
@@ -287,12 +289,15 @@
                                     <navigationItem title="MemeMe" id="rQO-49-D9X">
                                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="7X6-Kc-Gxm">
                                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <connections>
+                                                <action selector="createMeme:" destination="ojc-ZZ-KZG" id="1mv-fg-Iw9"/>
+                                            </connections>
                                         </barButtonItem>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="7rd-Kh-mHX" firstAttribute="leading" secondItem="LTF-GZ-h7Z" secondAttribute="leading" id="3dm-sq-aEr"/>
                             <constraint firstItem="LTF-GZ-h7Z" firstAttribute="top" secondItem="7rd-Kh-mHX" secondAttribute="bottom" id="8aj-nF-Y0N"/>
@@ -325,19 +330,22 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UVO-Mb-q3c">
+                            <navigationBar contentMode="scaleToFill" barStyle="black" translatesAutoresizingMaskIntoConstraints="NO" id="UVO-Mb-q3c">
                                 <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="H8k-IQ-Yfi"/>
                                 </constraints>
+                                <color key="barTintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <items>
                                     <navigationItem title="Meme Me" id="DFv-4w-ciB">
                                         <barButtonItem key="leftBarButtonItem" systemItem="action" id="A06-yt-9aj" userLabel="Share">
+                                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <connections>
                                                 <action selector="sharePressed:" destination="BYZ-38-t0r" id="pT7-cd-wBe"/>
                                             </connections>
                                         </barButtonItem>
                                         <barButtonItem key="rightBarButtonItem" title="Cancel" id="JVg-Ad-RIL" userLabel="Cancel">
+                                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <connections>
                                                 <action selector="pressedCancel:" destination="BYZ-38-t0r" id="XZA-Zc-UMC"/>
                                             </connections>
@@ -385,7 +393,7 @@
                                     <constraint firstAttribute="bottom" secondItem="kkV-Hq-R6B" secondAttribute="bottom" id="vAg-cp-ghu"/>
                                 </constraints>
                             </view>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="inz-YA-Qfu">
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="black" translatesAutoresizingMaskIntoConstraints="NO" id="inz-YA-Qfu">
                                 <rect key="frame" x="0.0" y="623" width="375" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="VwD-8U-kcc"/>
@@ -393,17 +401,20 @@
                                 <items>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="6vd-xk-tet"/>
                                     <barButtonItem systemItem="camera" id="mE7-AI-4hA">
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
                                             <action selector="launchCamera:" destination="BYZ-38-t0r" id="uV8-uE-fiY"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem title="ALBUM" id="K9M-tM-htP">
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
                                             <action selector="launchLibrary:" destination="BYZ-38-t0r" id="9x5-xI-dkl"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="AiX-gg-Mtx"/>
                                 </items>
+                                <color key="barTintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </toolbar>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -447,6 +458,6 @@
     <resources>
         <image name="10" width="1600" height="1200"/>
         <image name="collectionView1" width="26" height="20"/>
-        <image name="listView1" width="28" height="16"/>
+        <image name="list5" width="28" height="28"/>
     </resources>
 </document>

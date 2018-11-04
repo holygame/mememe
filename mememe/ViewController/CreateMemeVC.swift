@@ -65,11 +65,13 @@ class CreateMemeVC: UIViewController {
     // MARK: Overrides
     override func viewDidLoad() {
         super.viewDidLoad()
-         setup()
+        shareButton.isEnabled = false
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         // Hide the navigation bar on the this view controller
+        setup()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -99,8 +101,8 @@ class CreateMemeVC: UIViewController {
                 }
             case "SentMemesCollectionVC":
                 print("unwind to collection")
-                if let tableViewVC = self.storyboard!.instantiateViewController(withIdentifier: "SentMemesCollectionVC") as? SentMemesTableVC {
-                    self.navigationController?.popToViewController(tableViewVC, animated: true)
+                if let collectionViewVC = self.navigationController!.viewControllers[0] as? SentMemesCollectionVC {
+                    self.navigationController?.popToViewController(collectionViewVC, animated: true)
                 }
             default:
                 self.navigationController?.popToRootViewController(animated: true)
@@ -119,7 +121,7 @@ class CreateMemeVC: UIViewController {
         self.navigationController?.setNavigationBarHidden(true, animated: true)
         self.tabBarController?.tabBar.isHidden = true
         launchCamera.isEnabled = UIImagePickerController.isSourceTypeAvailable(.camera)
-        shareButton.isEnabled = false
+        
         subscribeToNotification()
         
         //if edit saved meme
@@ -166,6 +168,7 @@ class CreateMemeVC: UIViewController {
     @objc func keyboardWillAppear(_ notification: Notification){
         // move view only up when it's bottom text and not already up (used to happen in simulator on first keyboard use)
         if bottomText.isEditing && memImageMovedUp == false{
+            print("KEYBOARD APPEAR")
             view.frame.origin.y -= getKeyboardHeight(notification)
             memImageMovedUp = true
         }
@@ -220,7 +223,7 @@ class CreateMemeVC: UIViewController {
         appDelegate.memes.append(meme)
        
         //unwind information, meme saved, go always back to root controller and scroll to the newest saved meme
-        unwindIdentifier = "SentMemesTableVC"
+        //unwindIdentifier = "SentMemesTableVC"
         unwindScrollToTop = true
     }
     
@@ -299,7 +302,7 @@ extension CreateMemeVC: UIImagePickerControllerDelegate, UINavigationControllerD
             self.memImage.contentMode = .scaleAspectFit
             self.memImage.clipsToBounds = false
             setTextToAspectFitImage()
-            shareButton.isEnabled = true
+            self.shareButton.isEnabled = true
         }
         dismiss(animated: true, completion: nil)
     }

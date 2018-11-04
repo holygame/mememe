@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SentMemesCollectionViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+class SentMemesCollectionVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
 
     var memes: [Meme]! {
         print("GET MEME VAR")
@@ -23,18 +23,24 @@ class SentMemesCollectionViewController: UIViewController, UICollectionViewDeleg
     
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
+    @IBAction func createMeme(_ sender: Any) {
+        let createMemeVC = storyboard!.instantiateViewController(withIdentifier: "CreateMemeVC") as! CreateMemeVC
+        createMemeVC.unwindIdentifier = "SentMemesCollectionVC"
+        self.navigationController?.pushViewController(createMemeVC, animated: true)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.collectionView.dataSource = self
         self.collectionView.delegate = self
+        self.collectionView.backgroundColor = UIColor.darkGray
         
         // Register cell classes
         self.collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         
         // Do any additional setup after loading the view.
         // Do any additional setup after loading the view.
-        let space:CGFloat = 3.0
+        let space:CGFloat = 1
         let dimensionWidth = (view.frame.size.width - (2 * space)) / 3.0
         let dimensionHeight = (view.frame.size.height - (space * 2)) / 5.0
         
@@ -60,6 +66,14 @@ class SentMemesCollectionViewController: UIViewController, UICollectionViewDeleg
         }
         
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if let meme = allMemes[(indexPath as IndexPath).row] as Meme? {
+            let detailVC = self.storyboard!.instantiateViewController(withIdentifier: "DetailView") as! DetailViewVC
+            detailVC.meme = meme
+            self.navigationController?.pushViewController(detailVC, animated: true)
+        }
     }
     
     func setup(){
