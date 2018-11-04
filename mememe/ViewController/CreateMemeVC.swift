@@ -35,8 +35,8 @@ class CreateMemeVC: UIViewController {
     var orientation = UIDevice.current.orientation
     var lastOrientation = UIDevice.current.orientation
     var savedMeme: Meme?
-    var unwindToController: UIViewController?
-    var forceUnwindToRoot = false
+    var unwindIdentifier = ""
+    var unwindScrollToTop = false
 
     // MARK: IBActions
     @IBAction func launchLibrary(_ sender: Any) {
@@ -48,13 +48,7 @@ class CreateMemeVC: UIViewController {
     }
     
     @IBAction func pressedCancel(_ sender: Any) {
-        
-        if let unwindToController = self.unwindToController, forceUnwindToRoot == false{
-            print(unwindToController)
-            self.navigationController?.popToViewController(unwindToController, animated: true)
-        } else{
-            self.navigationController?.popToRootViewController(animated: true)
-        }
+        unwindToController(identifier: unwindIdentifier, scrollToTop: unwindScrollToTop)
     }
     
     @IBAction func sharePressed(_ sender: Any) {
@@ -71,12 +65,11 @@ class CreateMemeVC: UIViewController {
     // MARK: Overrides
     override func viewDidLoad() {
         super.viewDidLoad()
-        setup()
+         setup()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         // Hide the navigation bar on the this view controller
-        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -87,6 +80,31 @@ class CreateMemeVC: UIViewController {
     @objc func deviceOrientationDidChange(_ notification: Notification) {
         orientation = UIDevice.current.orientation
         setTextToAspectFitImage()
+    }
+    
+    func unwindToController(identifier: String, scrollToTop: Bool = false){
+        let navigationCount = self.navigationController!.viewControllers.count
+        
+        switch identifier {
+            case "DetailViewVC": //back to detail view, meme not saved
+                print("unwind to detail")
+                if let tableViewVC = self.navigationController!.viewControllers[navigationCount-2] as? DetailViewVC {
+                    self.navigationController?.popToViewController(tableViewVC, animated: true)
+                }
+            case "SentMemesTableVC": //meme saved, back to tableview, tableview should scroll 2 to then
+                print("unwind to table")
+                if let tableViewVC = self.navigationController!.viewControllers[0] as? SentMemesTableVC {
+                    tableViewVC.scrollToTop = scrollToTop
+                    self.navigationController?.popToViewController(tableViewVC, animated: true)
+                }
+            case "SentMemesCollectionVC":
+                print("unwind to collection")
+                if let tableViewVC = self.storyboard!.instantiateViewController(withIdentifier: "SentMemesCollectionVC") as? SentMemesTableVC {
+                    self.navigationController?.popToViewController(tableViewVC, animated: true)
+                }
+            default:
+                self.navigationController?.popToRootViewController(animated: true)
+        }
     }
     
     func chooseImageFromCameraOrPhoto(source: UIImagePickerControllerSourceType) {
@@ -104,12 +122,15 @@ class CreateMemeVC: UIViewController {
         shareButton.isEnabled = false
         subscribeToNotification()
         
-        //set saved meme text & image if user comes fromn tableview
+        //if edit saved meme
         if let savedMeme = savedMeme{
             textTop = savedMeme.topText
             textBottom  = savedMeme.bottomText
             memImage.image = savedMeme.originalImage
             shareButton.isEnabled = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0) {
+                self.setTextToAspectFitImage() //unfort. some kind of delay is needed until the image is available for aspect ratio
+            }
         }
         
         setupTextField(tf: topText, text: textTop)
@@ -192,22 +213,25 @@ class CreateMemeVC: UIViewController {
     
     func saveMeme(newMemeImage: UIImage){
         let meme = Meme(topText: topText.text!, bottomText: bottomText.text!, originalImage: self.memImage.image!, memImage: newMemeImage)
-        forceUnwindToRoot = true
-        
+       
         // Add meme to memes in App Delegate
         let object = UIApplication.shared.delegate
         let appDelegate = object as! AppDelegate
         appDelegate.memes.append(meme)
-        
+       
+        //unwind information, meme saved, go always back to root controller and scroll to the newest saved meme
+        unwindIdentifier = "SentMemesTableVC"
+        unwindScrollToTop = true
     }
     
+    /*
     func resetMeme(){
         topText.text = "TOP"
         bottomText.text = "Buttom"
         memImage.image = nil
         setTextToAspectFitImage()
         shareButton.isEnabled = false
-    }
+    }*/
     
     //get the actual image position inside an imageview when aspectfit is set (from stackoverflow)
     func frame(for image: UIImage, inImageViewAspectFit imageView: UIImageView) -> CGRect {
@@ -239,6 +263,7 @@ class CreateMemeVC: UIViewController {
         lastOrientation = UIDevice.current.orientation
         
         if let image = memImage.image{
+            print("MEMIMAGE RATIO")
             let actualImageSize = self.frame(for: image, inImageViewAspectFit: memImage)
             let textLeftRightConstraint = actualImageSize.minX > 10 ? CGFloat(actualImageSize.minX) : CGFloat(20)
             

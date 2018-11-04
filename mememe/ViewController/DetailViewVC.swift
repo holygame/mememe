@@ -26,6 +26,7 @@ class DetailViewVC: UIViewController {
         self.navigationController?.setNavigationBarHidden(false, animated: true)
         self.tabBarController?.tabBar.isHidden = true
         self.navigationItem.setRightBarButton(UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editMeme)), animated: true)
+        self.navigationController?.navigationBar.tintColor = UIColor.white
         memeImage.image = meme.memImage
     }
 
@@ -33,8 +34,7 @@ class DetailViewVC: UIViewController {
         print("EditMeme")
         let editVC = self.storyboard!.instantiateViewController(withIdentifier: "CreateMemeVC") as! CreateMemeVC
         editVC.savedMeme = meme
-        editVC.unwindToController = self 
-        
+        editVC.unwindIdentifier = "DetailViewVC"
         self.navigationController?.pushViewController(editVC, animated: true)
     }
     /*

@@ -10,7 +10,6 @@ import UIKit
 
 
 class SentMemeTableViewCell: UITableViewCell{
-    
     @IBOutlet weak var cellLabelTop: UILabel!
     @IBOutlet weak var cellLabelBottom: UILabel!
     @IBOutlet weak var cellImage: UIImageView!
@@ -19,16 +18,21 @@ class SentMemeTableViewCell: UITableViewCell{
 class SentMemesTableVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     var memes: [Meme]! {
+        print("GET MEME VAR")
         let object = UIApplication.shared.delegate
         let appDelegate = object as! AppDelegate
-        appDelegate.memes.reverse()
+        //appDelegate.memes.reverse()
         return appDelegate.memes
     }
+    
+    var allMemes = [Meme]()
+    var scrollToTop = false
     
     @IBOutlet weak var tableView: UITableView!
     
     @IBAction func createMeme(_ sender: Any) {
         let createMemeVC = storyboard!.instantiateViewController(withIdentifier: "CreateMemeVC") as! CreateMemeVC
+        createMemeVC.unwindIdentifier = "SentMemesTableVC"
         self.navigationController?.pushViewController(createMemeVC, animated: true)
     }
     
@@ -36,27 +40,41 @@ class SentMemesTableVC: UIViewController, UITableViewDelegate, UITableViewDataSo
         super.viewDidLoad()
         self.tableView.delegate = self
         self.tableView.dataSource = self
+        print("DID LOAD")
         testMemes()
-        //store memes in user defaults
-        //let userDefault = UserDefaults.standard
-        //userDefault.set([Meme](), forKey: "memes")
+        
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        self.tableView.reloadData()
-
-        print("memes from table")
-        print(memes)
+        print("WILL APPEAR")
+        setup()
     }
 
+    func setup(){
+        allMemes = memes
+        allMemes.reverse()
+        scrollToFirstRow()
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
+        self.tabBarController?.tabBar.isHidden = false
+    }
+    
+    func scrollToFirstRow() {
+        if scrollToTop {
+            print("scrolltotop")
+            self.tableView.reloadData()
+            let indexPath = IndexPath(row: 0, section: 0)
+            self.tableView.scrollToRow(at: indexPath, at: .top, animated: true)
+            scrollToTop = false 
+        }
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-       
-        return memes.count
+        return allMemes.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MemeTableCell") as! SentMemeTableViewCell
-        if let meme = memes[(indexPath as IndexPath).row] as Meme? {
+        if let meme = allMemes[(indexPath as IndexPath).row] as Meme? {
             cell.cellLabelTop.text  = meme.topText
             cell.cellLabelBottom.text = meme.bottomText
             cell.cellImage.image = meme.memImage
@@ -67,12 +85,12 @@ class SentMemesTableVC: UIViewController, UITableViewDelegate, UITableViewDataSo
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            var newMemes: [Meme] = memes
-            newMemes.remove(at: (indexPath as IndexPath).row)
+            allMemes.remove(at: (indexPath as IndexPath).row)
             
+            //save allMemes to appDelegate
             let object = UIApplication.shared.delegate
             let appDelegate = object as! AppDelegate
-            appDelegate.memes = newMemes
+            appDelegate.memes = allMemes
             
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
@@ -80,13 +98,16 @@ class SentMemesTableVC: UIViewController, UITableViewDelegate, UITableViewDataSo
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
          print("detail")
-        if let meme = memes[(indexPath as IndexPath).row] as Meme? {
+        if let meme = allMemes[(indexPath as IndexPath).row] as Meme? {
             print(meme)
             let detailVC = self.storyboard!.instantiateViewController(withIdentifier: "DetailView") as! DetailViewVC
             detailVC.meme = meme
             
             self.navigationController?.pushViewController(detailVC, animated: true)
         }
+        
+        let selectedCell:UITableViewCell = tableView.cellForRow(at: indexPath)!
+        selectedCell.contentView.backgroundColor = UIColor.black
     }
     
     func testMemes(){
