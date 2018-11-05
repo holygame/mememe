@@ -38,7 +38,7 @@ class SentMemesTableVC: UIViewController, UITableViewDelegate, UITableViewDataSo
         super.viewDidLoad()
         self.tableView.delegate = self
         self.tableView.dataSource = self
-        testMemes() //populate meme array with test data
+        //testMemes() //populate meme array with test data
     }
 
     override func viewWillAppear(_ animated: Bool) {
