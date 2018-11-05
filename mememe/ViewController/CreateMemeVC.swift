@@ -78,6 +78,10 @@ class CreateMemeVC: UIViewController {
          unsubscribeNotification()
     }
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return UIStatusBarStyle.lightContent
+    }
+    
     // MARK: Functions
     @objc func deviceOrientationDidChange(_ notification: Notification) {
         orientation = UIDevice.current.orientation
@@ -94,13 +98,11 @@ class CreateMemeVC: UIViewController {
                     self.navigationController?.popToViewController(tableViewVC, animated: true)
                 }
             case "SentMemesTableVC": //meme saved, back to tableview, tableview should scroll 2 to then
-                print("unwind to table")
                 if let tableViewVC = self.navigationController!.viewControllers[0] as? SentMemesTableVC {
                     tableViewVC.scrollToTop = scrollToTop
                     self.navigationController?.popToViewController(tableViewVC, animated: true)
                 }
-            case "SentMemesCollectionVC":
-                print("unwind to collection")
+            case "SentMemesCollectionVC": //unwind to collection view
                 if let collectionViewVC = self.navigationController!.viewControllers[0] as? SentMemesCollectionVC {
                     self.navigationController?.popToViewController(collectionViewVC, animated: true)
                 }
@@ -120,11 +122,11 @@ class CreateMemeVC: UIViewController {
     func setup(){
         self.navigationController?.setNavigationBarHidden(true, animated: true)
         self.tabBarController?.tabBar.isHidden = true
-        launchCamera.isEnabled = UIImagePickerController.isSourceTypeAvailable(.camera)
         
+        launchCamera.isEnabled = UIImagePickerController.isSourceTypeAvailable(.camera)
         subscribeToNotification()
         
-        //if edit saved meme
+        //if pressed edit from detail view
         if let savedMeme = savedMeme{
             textTop = savedMeme.topText
             textBottom  = savedMeme.bottomText
@@ -227,15 +229,6 @@ class CreateMemeVC: UIViewController {
         unwindScrollToTop = true
     }
     
-    /*
-    func resetMeme(){
-        topText.text = "TOP"
-        bottomText.text = "Buttom"
-        memImage.image = nil
-        setTextToAspectFitImage()
-        shareButton.isEnabled = false
-    }*/
-    
     //get the actual image position inside an imageview when aspectfit is set (from stackoverflow)
     func frame(for image: UIImage, inImageViewAspectFit imageView: UIImageView) -> CGRect {
         let imageRatio = (image.size.width / image.size.height)
@@ -266,7 +259,6 @@ class CreateMemeVC: UIViewController {
         lastOrientation = UIDevice.current.orientation
         
         if let image = memImage.image{
-            print("MEMIMAGE RATIO")
             let actualImageSize = self.frame(for: image, inImageViewAspectFit: memImage)
             let textLeftRightConstraint = actualImageSize.minX > 10 ? CGFloat(actualImageSize.minX) : CGFloat(20)
             

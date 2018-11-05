@@ -22,6 +22,10 @@ class DetailViewVC: UIViewController {
          setup()
     }
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return UIStatusBarStyle.lightContent
+    }
+    
     func setup(){
         self.navigationController?.setNavigationBarHidden(false, animated: true)
         self.tabBarController?.tabBar.isHidden = true
@@ -31,7 +35,6 @@ class DetailViewVC: UIViewController {
     }
 
     @objc func editMeme(){
-        print("EditMeme")
         let editVC = self.storyboard!.instantiateViewController(withIdentifier: "CreateMemeVC") as! CreateMemeVC
         editVC.savedMeme = meme
         editVC.unwindIdentifier = "DetailViewVC"
