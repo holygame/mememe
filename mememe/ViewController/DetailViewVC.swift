@@ -40,6 +40,7 @@ class DetailViewVC: UIViewController {
         editVC.unwindIdentifier = "DetailViewVC"
         self.navigationController?.pushViewController(editVC, animated: true)
     }
+    
     /*
     // MARK: - Navigation
 

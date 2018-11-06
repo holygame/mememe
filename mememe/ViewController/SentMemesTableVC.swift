@@ -109,7 +109,6 @@ class SentMemesTableVC: UIViewController, UITableViewDelegate, UITableViewDataSo
     }
     
     func testMemes(){
-        
         let testMemes: [Meme] = [
             Meme(topText: "s asdf asf asfd asdf dfg dgf dfg dfgd ddg sdgas", bottomText: "asdf asdf asdf asf", originalImage: UIImage(named: "1.jpg")!, memImage:  UIImage(named: "1.jpg")!),
             Meme(topText: "s asdf asf asfd df dfg dfg dfg asdf as", bottomText: "asdf asdf asdf asf", originalImage: UIImage(named: "2.jpg")!, memImage:  UIImage(named: "2.jpg")!),
