@@ -1,21 +1,24 @@
 # MemeMe
-Udacity Course App
+MemeMe is a meme-generating app that enables a user to attach a caption to a picture from their phone. After adding text to an image chosen from the Photo Album or Camera, the user can share it with friends. MemeMe also temporarily stores sent memes which users can browse in a table or a grid.
 
-Take a picture, add text at the top and bottom to create a meme. Share that meme with your Friends on Twitter & Co. or by SMS or email
+The app has three pages of content:
 
-## Synopsis
-This is a training course app from the Udacity iOs Developer Programm.
-This app was build to learn basic ios technics.
+1. Meme Editor View: Enables a user to add text to an image and share it. 
+2. Sent Memes View: Enables a user to browse sent memes in a table or a grid.
+3. Meme Detail View: Displays an image of a sent meme
 
-UITextField 
-UITableView
-Segue & Delegtes
 
-It is build for learning and training purposes.
+## Build with
+* Xcode 10.1
+* Swift 4.2
 
-## Status
-This app works as described in the Udacity Course & passed the code review
+## Installation
+1. Download Zip file and open meme.xcodeproj
+2. Chose build target iOS Simulator or iPhone
+3. Run app by selecting Build button or Command + R
 
-## Licence
-Public Domain License. Feel free to do what ever you want
+## Licensing:
+Public Domain
 
+## Acknowledgments
+[Udacity iOS Developer Nanodegree](https://eu.udacity.com/course/ios-developer-nanodegree--nd003)
